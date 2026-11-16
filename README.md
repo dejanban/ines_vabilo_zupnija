@@ -1,6 +1,6 @@
-# Plakete za obletnico poroke · Župnija Črnomelj
+# Priprava plaket · Župnija Črnomelj
 
-Spletna aplikacija za pripravo plaket z več prejemniki in prenosom vseh plaket v enem PDF-ju.
+Spletna aplikacija za pripravo plaket z urejljivim naslovom, besedilom in podpisom, več prejemniki ter prenosom vseh plaket v enem PDF-ju.
 
 **Naslov po vključitvi GitHub Pages:** [dejanban.github.io/ines_vabilo_zupnija](https://dejanban.github.io/ines_vabilo_zupnija/).
 

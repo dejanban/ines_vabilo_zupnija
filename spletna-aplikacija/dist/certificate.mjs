@@ -1,4 +1,5 @@
 export const DEFAULT_BODY = 'Plaketo podeljuje Župnija Črnomelj\nza 5. obletnico poroke.\n\nHvala za vajino zvestobo, ljubezen in pričevanje.\n\nNaj Gospod še naprej spremlja vajino pot.';
+export const DEFAULT_TITLE = 'PLAKETA ZA\nOBLETNICO POROKE';
 export const DEFAULT_FOOTER = 'Črnomelj, 22. 11. 2026 | Janez Žakelj, župnik';
 export const PLACEHOLDER = '[Ime in Priimek jubilantov]';
 export const COLORS = { title: '#2D1C03', body: '#2E2D29', name: '#161B1A', footer: '#2E2D29' };
@@ -63,10 +64,18 @@ export function drawCertificate(canvas, state, recipient, background, fonts = DE
   context.drawImage(background, 0, 0, 382, 512);
   context.textAlign = 'center';
   context.textBaseline = 'alphabetic';
-  const title = ['PLAKETA ZA', 'OBLETNICO POROKE'];
-  setFont(context, 18.5, fonts.serif, true);
+  const titleText = (state.title ?? DEFAULT_TITLE).trim();
+  let titleSize = 18.5;
+  let title;
+  do {
+    setFont(context, titleSize, fonts.serif, true);
+    title = titleText.split(/\r\n|\n|\r/u).flatMap(line => wrapLine(context, line, 286));
+    if (title.length <= 2) break;
+    titleSize -= .25;
+  } while (titleSize >= 12);
+  if (title.length > 2) throw new Error('Naslov je predolg za plaketo. Skrajšaj ga na največ dve kratki vrstici.');
   context.fillStyle = COLORS.title;
-  title.forEach((line, i) => context.fillText(line, 191, 255 + i * 26));
+  title.forEach((line, i) => context.fillText(line, 191, title.length === 1 ? 268 : 255 + i * 26));
 
   const name = recipient || PLACEHOLDER;
   let nameSize = 28;
@@ -92,5 +101,5 @@ export function drawCertificate(canvas, state, recipient, background, fonts = DE
   if (footerLines.length > 2) throw new Error('Kraj, datum in podpis so predolgi. Uporabi največ dve kratki vrstici.');
   context.fillStyle = COLORS.footer;
   footerLines.forEach((line, i) => context.fillText(line, 191, (footerLines.length > 1 ? 462 : 470) + i * 13));
-  return { nameSize, bodySize, footerSize, bodyLines: body.lines.length };
+  return { titleSize, nameSize, bodySize, footerSize, bodyLines: body.lines.length };
 }

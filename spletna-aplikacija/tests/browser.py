@@ -75,6 +75,14 @@ try:
     assert js('return document.querySelector("#recipient-count").textContent') == '0'
     checks.append('Prazna tabela: predogled ima nadomestno ime, prenos je onemogočen.')
 
+    default_title = 'PLAKETA ZA\nOBLETNICO POROKE'
+    assert js('return document.querySelector("#title-text").value') == default_title
+    js('const s=JSON.parse(localStorage.getItem("crnomelj-plakete-v1"));delete s.title;localStorage.setItem("crnomelj-plakete-v1",JSON.stringify(s));')
+    command('/refresh', {})
+    wait('return document.querySelector("#loading-message").hidden')
+    assert js('return document.querySelector("#title-text").value') == default_title
+    checks.append('Stari osnutki brez naslova dobijo izvirni naslov in ostanejo uporabni.')
+
     fill('#recipient-rows input', 'Ana in Janez Novak')
     js('document.querySelector("#add-recipient").click()')
     fill('#recipient-rows tr:nth-child(2) input', 'Marija in Jože Kovač')
@@ -85,6 +93,8 @@ try:
 
     body = js('return document.querySelector("#body-text").value').replace('5. obletnico', '10. obletnico')
     footer = 'Črnomelj, 23. 11. 2026 | Janez Žakelj, župnik'
+    title = 'PLAKETA ZA\nDOLGOLETNO SODELOVANJE'
+    fill('#title-text', title)
     fill('#body-text', body)
     fill('#footer-text', footer)
     wait('return !document.querySelector("#download").disabled')
@@ -92,8 +102,13 @@ try:
     raw = js('return document.querySelector("#preview").toDataURL("image/png").split(",")[1]')
     (RESULTS / 'preview.png').write_bytes(base64.b64decode(raw))
 
+    js('window.exportedText=[];const original=CanvasRenderingContext2D.prototype.fillText;CanvasRenderingContext2D.prototype.fillText=function(text,...args){if(this.canvas.width===2480)window.exportedText.push(String(text));return original.call(this,text,...args);};')
     js('document.querySelector("#download").click()')
     wait('return document.querySelector("#feedback").textContent.startsWith("PDF je pripravljen:")', 90)
+    exported_text = js('return window.exportedText')
+    assert exported_text.count('DOLGOLETNO SODELOVANJE') == 2, exported_text
+    assert 'OBLETNICO POROKE' not in exported_text, exported_text
+    checks.append('Urejeni naslov se uporabi na obeh dejansko izrisanih straneh PDF-ja.')
     target = DOWNLOADS / 'plakete-crnomelj-2.pdf'
     deadline = time.monotonic() + 20
     while not target.exists() and time.monotonic() < deadline:
@@ -122,9 +137,18 @@ try:
     command('/refresh', {})
     wait('return document.querySelector("#loading-message").hidden')
     assert js('return document.querySelector("#body-text").value') == body
+    assert js('return document.querySelector("#title-text").value') == title
     assert js('return document.querySelector("#footer-text").value') == footer
     assert js('return document.querySelector("#recipient-count").textContent') == '2'
-    checks.append('Osnutek: imena, urejeno besedilo in podpis se ohranijo po osvežitvi.')
+    checks.append('Osnutek: imena, naslov, urejeno besedilo in podpis se ohranijo po osvežitvi.')
+
+    fill('#title-text', 'Priznanje za sodelovanje')
+    wait('return !document.querySelector("#download").disabled')
+    fill('#title-text', 'Prva vrstica\nDruga vrstica\nTretja vrstica')
+    wait('return document.querySelector("#download").disabled && document.querySelector("#feedback").textContent.includes("Naslov je predolg")')
+    fill('#title-text', title)
+    wait('return !document.querySelector("#download").disabled')
+    checks.append('Naslov podpira eno vrstico in šumnike; predolg naslov pokaže napako in ne prekriva prejemnika.')
 
     fill('#body-text', '\n\n'.join(['Dolgo besedilo, ki se ne more prilegati.']*60))
     wait('return document.querySelector("#download").disabled && document.querySelector("#feedback").classList.contains("error")')
@@ -139,6 +163,7 @@ try:
     checks.append('Daljše ime se prilagodi; prazne vrstice ne preprečijo prikaza prvega vpisanega prejemnika.')
 
     js('document.querySelector("#restore-text").click()')
+    assert js('return document.querySelector("#title-text").value') == default_title
     assert '5. obletnico' in js('return document.querySelector("#body-text").value')
     assert js('return document.querySelector("#recipient-rows tr:nth-child(2) input").value') == 'Marija in Jože Kovač'
     fill('#bulk-names', 'Mojca in Peter Zupan\r\nNina in\tMarko Kos')

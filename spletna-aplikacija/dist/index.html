@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#263e33">
-  <meta name="description" content="Pripravi plakete za obletnice poroke. Vpiši prejemnike, uredi besedilo in prenesi en PDF z vsemi plaketami.">
-  <title>Plakete za obletnico poroke · Župnija Črnomelj</title>
+  <meta name="description" content="Pripravi plakete za različne priložnosti. Vpiši prejemnike, uredi naslov in besedilo ter prenesi en PDF z vsemi plaketami.">
+  <title>Priprava plaket · Župnija Črnomelj</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./app.mjs"></script>
@@ -14,14 +14,14 @@
   <header class="site-header">
     <a class="brand" href="./" aria-label="Plakete, začetna stran">
       <span class="brand-mark" aria-hidden="true">❧</span>
-      <span><span class="eyebrow">ŽUPNIJA ČRNOMELJ</span><strong>Plakete za obletnico poroke</strong></span>
+      <span><span class="eyebrow">ŽUPNIJA ČRNOMELJ</span><strong>Priprava plaket</strong></span>
     </a>
-    <span class="header-note"><span class="status-dot"></span>Pripravljeno z mislijo na vajin jubilej</span>
+    <span class="header-note"><span class="status-dot"></span>Za posebne priložnosti in lepe spomine</span>
   </header>
 
   <main>
     <div class="page-heading">
-      <div><p class="eyebrow">OSEBNO VOŠČILO. LEP SPOMIN.</p><h1>Za vsak par njegova plaketa.</h1><p>Vpiši prejemnike, prilagodi besedilo in prenesi vse plakete v enem PDF-ju.</p></div>
+      <div><p class="eyebrow">OSEBNO VOŠČILO. LEP SPOMIN.</p><h1>Plaketa za vsako priložnost.</h1><p>Vpiši prejemnike, prilagodi naslov in besedilo ter prenesi vse plakete v enem PDF-ju.</p></div>
       <span class="format-tag">A4 <span>·</span> 300 dpi</span>
     </div>
 
@@ -37,6 +37,9 @@
 
         <section class="panel" aria-labelledby="text-heading">
           <div class="section-heading"><span class="step">02</span><div><h2 id="text-heading">Besedilo plakete</h2><p>Enako besedilo bo na vseh plaketah.</p></div></div>
+          <label for="title-text">Naslov plakete</label>
+          <textarea id="title-text" rows="2" maxlength="300" spellcheck="true" aria-describedby="title-hint"></textarea>
+          <p id="title-hint" class="field-hint">Vpiši naslov za svojo priložnost. Z novo vrstico določiš prelom; naslov se prilagodi največ dvema vrsticama.</p>
           <label for="body-text">Spodnje besedilo</label>
           <textarea id="body-text" rows="8" maxlength="2000" spellcheck="true"></textarea>
           <p class="field-hint">Z novo vrstico določiš prelom, s prazno vrstico razmik med odstavki.</p>
@@ -59,6 +62,6 @@
     </div>
     <noscript>Za prikaz in prenos plaket omogoči JavaScript v brskalniku.</noscript>
   </main>
-  <footer class="site-footer"><span>Župnija Črnomelj</span><span>Majhna pozornost za velike obletnice.</span><span class="footer-flourish" aria-hidden="true">❧</span></footer>
+  <footer class="site-footer"><span>Župnija Črnomelj</span><span>Majhna pozornost za velike priložnosti.</span><span class="footer-flourish" aria-hidden="true">❧</span></footer>
 </body>
 </html>

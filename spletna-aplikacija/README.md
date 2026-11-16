@@ -1,4 +1,4 @@
-# Plakete za obletnico poroke
+# Plakete za različne priložnosti
 
 Spletna aplikacija za Župnijo Črnomelj. Uporablja neposredno kopijo datoteke `izhod/A4_ozadje_z_Marijo.svg` kot ozadje. Besedilo je postavljeno po vzoru `IMG_8981.JPG`, vključno z izmerjenimi temno rjavimi in skoraj črnimi barvami.
 
@@ -24,16 +24,16 @@ Odpri **http://localhost:8000**. Za druga vrata dodaj številko, na primer `pyth
 
 1. V tabelo vpiši po enega prejemnika oziroma par na vrstico. Dodatne vrstice doda gumb **Dodaj prejemnika** ali tipka Enter. Seznam lahko tudi prilepiš iz preglednice.
 2. Predogled vedno prikazuje prvega izpolnjenega prejemnika. Prazne vrstice se pri izvozu preskočijo; enaka imena se ohranijo, če so vpisana večkrat.
-3. Uredi spodnje besedilo in vrstico s krajem, datumom in podpisom. Nova vrstica v besedilu določi prelom, prazna vrstica razmik med odstavki. Imena in daljša besedila se samodejno prilagajajo razpoložljivemu prostoru. Če se besedilo ne more več berljivo prilegati, je prenos onemogočen in prikazana napaka.
+3. Uredi **Naslov plakete**, spodnje besedilo in vrstico s krajem, datumom in podpisom. Privzeti naslov »PLAKETA ZA / OBLETNICO POROKE« lahko zamenjaš za poljubno drugo priložnost. Naslov podpira do dve vrstici in se ob daljšem besedilu samodejno pomanjša. Nova vrstica v besedilu določi prelom, prazna vrstica razmik med odstavki. Imena in daljša besedila se samodejno prilagajajo razpoložljivemu prostoru. Če se besedilo ne more več berljivo prilegati, je prenos onemogočen in prikazana napaka.
 4. **Prenesi PDF** neposredno prenese en večstranski PDF. Za vsakega prejemnika vsebuje eno A4 stran z njegovim imenom. Med generiranjem je prikazan napredek, na voljo je preklic.
 
-Osnutek se shranjuje samo v lokalno shrambo trenutnega brskalnika. Imena in urejena besedila se ne pošiljajo strežniku. Če lokalna shramba ni dovoljena, aplikacija še vedno deluje do zaprtja strani. **Povrni izvirno besedilo** povrne besedilo in podpis ter ohrani seznam prejemnikov.
+Osnutek se shranjuje samo v lokalno shrambo trenutnega brskalnika, vključno z naslovom. Imena in urejena besedila se ne pošiljajo strežniku. Obstoječi osnutki brez naslova dobijo privzeti naslov, ostali podatki ostanejo ohranjeni. Če lokalna shramba ni dovoljena, aplikacija še vedno deluje do zaprtja strani. **Povrni izvirno besedilo** povrne naslov, besedilo in podpis ter ohrani seznam prejemnikov.
 
 ## Pisave in tisk
 
 Točne izvirne pisave iz JPG-ja ni mogoče potrditi. Aplikacija prednostno uporabi Times New Roman in Monotype Corsiva, če sta nameščeni na računalniku. Kot priloženi nadomestni pisavi sta uporabljeni Liberation Serif (navadna in krepka) ter Italianno. V razdelku **Pisave in izvirna predloga** lahko uporabnik naloži svoji datoteki TTF, OTF, WOFF ali WOFF2. Naloženi pisavi se uporabita v predogledu in PDF-ju; veljata do ponovnega nalaganja strani. Licence priloženih pisav so v `dist/assets/`.
 
-Predogled in izvoz uporabljata skupno funkcijo postavitve v `certificate.mjs`. Položaji so zapisani v koordinatah referenčne slike 382 × 512 in preslikani na A4. Barvi naslova `#2D1C03` in besedila `#2E2D29` izhajata iz analize izvirnika. Prejemnik ima temen kaligrafski zapis. Naslov je ohranjen: **PLAKETA ZA / OBLETNICO POROKE**.
+Predogled in izvoz uporabljata skupno funkcijo postavitve v `certificate.mjs`. Položaji so zapisani v koordinatah referenčne slike 382 × 512 in preslikani na A4. Barvi naslova `#2D1C03` in besedila `#2E2D29` izhajata iz analize izvirnika. Prejemnik ima temen kaligrafski zapis. Naslov je urejljiv ter ohrani izvirno barvo in krepko serifno pisavo.
 
 PDF ima fizične strani **210 × 297 mm**. Vsaka stran je v PDF vgrajena kot kakovostna JPEG upodobitev skupnega platna **2480 × 3508 pik** pri približno 300 dpi. Besedilo je zato del slike, s čimer se ohrani isti prikaz pisav tudi na računalniku brez nameščenih pisav; v PDF ni samostojno izbirljivo. PDF ne doda podrobnosti prvotnim rastrskim slikam. Pri tiskanju izberi **dejansko velikost / 100 %**, papir A4.
 

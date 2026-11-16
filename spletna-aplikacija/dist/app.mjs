@@ -1,15 +1,15 @@
-import { DEFAULT_BODY, DEFAULT_FOOTER, DEFAULT_FONTS, PLACEHOLDER, getRecipients, parseRecipients, drawCertificate } from './certificate.mjs';
+import { DEFAULT_TITLE, DEFAULT_BODY, DEFAULT_FOOTER, DEFAULT_FONTS, PLACEHOLDER, getRecipients, parseRecipients, drawCertificate } from './certificate.mjs';
 import { buildPdf } from './pdf.mjs';
 
 const $ = selector => document.querySelector(selector);
 const STORAGE_KEY = 'crnomelj-plakete-v1';
-const defaults = () => ({ recipients: [''], body: DEFAULT_BODY, footer: DEFAULT_FOOTER });
+const defaults = () => ({ recipients: [''], title: DEFAULT_TITLE, body: DEFAULT_BODY, footer: DEFAULT_FOOTER });
 let state = defaults();
 let storageAvailable = true;
 try {
   const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
   if (stored && Array.isArray(stored.recipients) && stored.recipients.every(value => typeof value === 'string') && typeof stored.body === 'string' && typeof stored.footer === 'string') {
-    state = { recipients: stored.recipients.length ? stored.recipients : [''], body: stored.body, footer: stored.footer };
+    state = { recipients: stored.recipients.length ? stored.recipients : [''], title: typeof stored.title === 'string' ? stored.title : DEFAULT_TITLE, body: stored.body, footer: stored.footer };
   }
 } catch { storageAvailable = false; }
 
@@ -108,6 +108,8 @@ function renderRows(focusIndex) {
   if (focusIndex !== undefined) $('#recipient-rows').querySelectorAll('input')[focusIndex]?.focus();
 }
 
+$('#title-text').value = state.title;
+$('#title-text').addEventListener('input', event => { state.title = event.target.value; changed(); });
 $('#body-text').value = state.body;
 $('#footer-text').value = state.footer;
 $('#body-text').addEventListener('input', event => { state.body = event.target.value; changed(); });
@@ -120,9 +122,10 @@ $('#import-names').addEventListener('click', () => {
   $('#bulk-names').value = ''; renderRows(); changed(); feedback('Prejemniki so dodani na seznam.');
 });
 $('#restore-text').addEventListener('click', () => {
-  state.body = DEFAULT_BODY; state.footer = DEFAULT_FOOTER;
+  state.title = DEFAULT_TITLE; state.body = DEFAULT_BODY; state.footer = DEFAULT_FOOTER;
+  $('#title-text').value = state.title;
   $('#body-text').value = state.body; $('#footer-text').value = state.footer;
-  changed(); feedback('Povrnjena sta izvirno besedilo in podpis. Prejemniki so ohranjeni.');
+  changed(); feedback('Povrnjeni so izvirni naslov, besedilo in podpis. Prejemniki so ohranjeni.');
 });
 
 async function uploadFont(event, kind) {
@@ -162,7 +165,7 @@ $('#download').addEventListener('click', async () => {
   if (!ready || exportController || !previewValid || fontLoading) return;
   const recipients = getRecipients(state.recipients);
   if (!recipients.length) { feedback('Dodaj vsaj enega prejemnika.', true); return; }
-  const snapshot = { body: state.body, footer: state.footer };
+  const snapshot = { title: state.title, body: state.body, footer: state.footer };
   const exportFonts = { ...fonts };
   exportController = new AbortController();
   const signal = exportController.signal;
