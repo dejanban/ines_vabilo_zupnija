@@ -2,9 +2,16 @@
 
 Spletna aplikacija za pripravo plaket z urejljivim naslovom, besedilom in podpisom, več prejemniki ter prenosom vseh plaket v enem PDF-ju.
 
-**Naslov po vključitvi GitHub Pages:** [dejanban.github.io/ines_vabilo_zupnija](https://dejanban.github.io/ines_vabilo_zupnija/).
+## [Odpri aplikacijo za pripravo plaket](https://dejanban.github.io/ines_vabilo_zupnija/)
 
-Za prvo objavo v [Settings → Pages](https://github.com/dejanban/ines_vabilo_zupnija/settings/pages) kot **Source** izberi **GitHub Actions**. Nato v [Actions → Deploy to GitHub Pages](https://github.com/dejanban/ines_vabilo_zupnija/actions/workflows/pages.yml) izberi **Run workflow**, če se objava ni zagnala že ob pushu. Vsak naslednji push na `main` preveri aplikacijo in samodejno objavi mapo `spletna-aplikacija/dist`.
+Aplikacijo odpri z zgornjo povezavo GitHub Pages. Stran repozitorija na `github.com` prikazuje izvorne datoteke in dokumentacijo.
+
+Objava podpira oba načina GitHub Pages:
+
+- **Deploy from a branch → main → / (root):** začetni `index.html` odpre aplikacijo v `spletna-aplikacija/dist/`. Datoteka `.nojekyll` omogoči neposredno streženje statičnih datotek.
+- **GitHub Actions:** potek [Deploy to GitHub Pages](https://github.com/dejanban/ines_vabilo_zupnija/actions/workflows/pages.yml) preveri aplikacijo, prepozna izbrani način objave in pri načinu Actions objavi samo mapo `spletna-aplikacija/dist`. Pri objavi iz veje dodatni korak objave preskoči.
+
+Obstoječe objave iz veje ni treba prestavljati na Actions. Ob naslednjem pushu se začetna stran posodobi skupaj z aplikacijo. Nastavitve so v [Settings → Pages](https://github.com/dejanban/ines_vabilo_zupnija/settings/pages).
 
 Pripravljene A4 slike, pretvorba PDF v PNG in pregled vsebine, pisav ter barv so v mapi [izhod](izhod/README.md).
 

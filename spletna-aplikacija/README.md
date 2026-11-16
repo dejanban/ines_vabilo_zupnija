@@ -4,7 +4,9 @@ Spletna aplikacija za Župnijo Črnomelj. Uporablja neposredno kopijo datoteke `
 
 ## GitHub Pages
 
-Aplikacija je pripravljena za objavo na naslovu **https://dejanban.github.io/ines_vabilo_zupnija/**. V nastavitvah repozitorija **Settings → Pages → Build and deployment → Source** enkrat izberi **GitHub Actions**. Potek `.github/workflows/pages.yml` ob vsakem pushu na `main` najprej preveri JavaScript in izvoz PDF, nato objavi samo vsebino `spletna-aplikacija/dist`. Objavo lahko sprožiš tudi ročno prek **Actions → Deploy to GitHub Pages → Run workflow**.
+Aplikacijo odpri na naslovu **https://dejanban.github.io/ines_vabilo_zupnija/**. Če GitHub Pages objavlja vejo **main** in mapo **/ (root)**, začetni `index.html` samodejno odpre aplikacijo v `spletna-aplikacija/dist/`. V korenu je tudi `.nojekyll`, zato se objavlja neposredna statična vsebina in začetna stran ni ustvarjena iz README.
+
+Podprta je tudi objava prek **GitHub Actions**: potek `.github/workflows/pages.yml` ob pushu na `main` preveri JavaScript in izvoz PDF ter prebere način objave Pages. Če je izbran način Actions, objavi samo vsebino `spletna-aplikacija/dist`; pri objavi iz veje dodatni korak objave preskoči. Preverjanje in morebitno objavo lahko sprožiš ročno prek **Actions → Deploy to GitHub Pages → Run workflow**. Obstoječo objavo iz veje lahko ohraniš.
 
 Vse poti do slik, pisav in modulov so relativne, zato aplikacija pravilno deluje tudi pod potjo `/ines_vabilo_zupnija/`. Izvorne slike, analiza, preizkusi in lokalne datoteke se ne dodajo v spletni paket. Objavljena aplikacija ne potrebuje dodatnih API ključev ali strežniškega dela.
 
