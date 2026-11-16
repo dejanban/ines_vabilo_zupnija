@@ -1,0 +1,17 @@
+Producer:        iOS Version 27.2.1 (Build 24B156) Quartz PDFContext
+CreationDate:    Sun Nov 15 18:04:11 2026 CET
+ModDate:         Sun Nov 15 18:04:11 2026 CET
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           1
+Encrypted:       no
+Page size:       111 x 173 pts
+Page rot:        0
+File size:       344229 bytes
+Optimized:       no
+PDF version:     1.3

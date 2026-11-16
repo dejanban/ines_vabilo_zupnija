@@ -1,0 +1,25 @@
+[
+  {
+    "datoteka": "README.md",
+    "velikost_bajtov": 21,
+    "sha256": "bc33060693a4f62da179270950d19d34a5245205c1394bd99799d29a9f9e6bd8"
+  },
+  {
+    "datoteka": "IMG_8981.JPG",
+    "velikost_bajtov": 77168,
+    "sha256": "6707e162b6b5888303604271abfa98cd9e47e82989455730e9b3896c18e85ae3",
+    "format": "JPEG",
+    "sirina_px": 382,
+    "visina_px": 512,
+    "nacin": "RGB",
+    "dpi": [
+      72.0,
+      72.0
+    ]
+  },
+  {
+    "datoteka": "Photo_2026-11-15_180405.pdf",
+    "velikost_bajtov": 344229,
+    "sha256": "76165f86151c8266744a0139a008503a8e610003842516177e5aa24e4020f065"
+  }
+]

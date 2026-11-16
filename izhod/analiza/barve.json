@@ -1,0 +1,92 @@
+{
+  "papir_zgoraj_levo": {
+    "obmocje_px": [
+      45,
+      70,
+      115,
+      130
+    ],
+    "metoda": "mediana vseh pikslov",
+    "RGB": [
+      245,
+      241,
+      216
+    ],
+    "HEX": "#F5F1D8"
+  },
+  "papir_sredina_spodaj": {
+    "obmocje_px": [
+      100,
+      415,
+      280,
+      450
+    ],
+    "metoda": "mediana vseh pikslov",
+    "RGB": [
+      243,
+      241,
+      216
+    ],
+    "HEX": "#F3F1D8"
+  },
+  "naslov": {
+    "obmocje_px": [
+      90,
+      239,
+      293,
+      285
+    ],
+    "metoda": "mediana najtemnejših 10 % pikslov",
+    "RGB": [
+      45,
+      28,
+      3
+    ],
+    "HEX": "#2D1C03"
+  },
+  "besedilo": {
+    "obmocje_px": [
+      52,
+      334,
+      334,
+      409
+    ],
+    "metoda": "mediana najtemnejših 10 % pikslov",
+    "RGB": [
+      46,
+      45,
+      41
+    ],
+    "HEX": "#2E2D29"
+  },
+  "okrasni_rob": {
+    "obmocje_px": [
+      20,
+      125,
+      44,
+      440
+    ],
+    "metoda": "mediana najtemnejših 10 % pikslov",
+    "RGB": [
+      66,
+      52,
+      28
+    ],
+    "HEX": "#42341C"
+  },
+  "modro_zelen_plasc": {
+    "obmocje_px": [
+      150,
+      164,
+      190,
+      207
+    ],
+    "metoda": "mediana vseh pikslov",
+    "RGB": [
+      15,
+      52,
+      58
+    ],
+    "HEX": "#0F343A"
+  }
+}

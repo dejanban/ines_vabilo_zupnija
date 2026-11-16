@@ -1,0 +1,10 @@
+OK: A4_samo_ozadje.png: 2480 × 3508 pik, RGB, 300 dpi, veljaven PNG.
+OK: A4_samo_ozadje.svg: A4 210 × 297 mm, brez besedilnih elementov.
+OK: A4_ozadje_z_Marijo.png: 2480 × 3508 pik, RGB, 300 dpi, veljaven PNG.
+OK: A4_ozadje_z_Marijo.svg: A4 210 × 297 mm, brez besedilnih elementov.
+OK: PNG iz vdelanega JPEG ima popolnoma enake dekodirane slikovne pike kot JPEG.
+OK: v SVG z Marijo je vgrajen točno izvirni PNG iz PDF, brez sprememb podatkov.
+INFO: README.md je dopolnjen s povezavami do rezultatov; zabeležena kontrolna vsota je stanje pred dopolnitvijo.
+OK: izvirnik IMG_8981.JPG je nespremenjen (SHA-256).
+OK: izvirnik Photo_2026-11-15_180405.pdf je nespremenjen (SHA-256).
+Vizualni pregled: obe končni sliki sta brez besedila; celoten okvir je viden; v glavni različici je na vrhu nova podoba iz PDF.

@@ -1,0 +1,4 @@
+# Preserve the previous Sites repository locally, outside the tracked source.
+.local/
+__pycache__/
+*.pyc

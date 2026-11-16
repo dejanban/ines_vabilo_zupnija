@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#263e33">
+  <meta name="description" content="Pripravi plakete za obletnice poroke. Vpiši prejemnike, uredi besedilo in prenesi en PDF z vsemi plaketami.">
+  <title>Plakete za obletnico poroke · Župnija Črnomelj</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Plakete, začetna stran">
+      <span class="brand-mark" aria-hidden="true">❧</span>
+      <span><span class="eyebrow">ŽUPNIJA ČRNOMELJ</span><strong>Plakete za obletnico poroke</strong></span>
+    </a>
+    <span class="header-note"><span class="status-dot"></span>Pripravljeno z mislijo na vajin jubilej</span>
+  </header>
+
+  <main>
+    <div class="page-heading">
+      <div><p class="eyebrow">OSEBNO VOŠČILO. LEP SPOMIN.</p><h1>Za vsak par njegova plaketa.</h1><p>Vpiši prejemnike, prilagodi besedilo in prenesi vse plakete v enem PDF-ju.</p></div>
+      <span class="format-tag">A4 <span>·</span> 300 dpi</span>
+    </div>
+
+    <div class="workspace">
+      <div class="editor">
+        <section class="panel" aria-labelledby="recipients-heading">
+          <div class="section-heading"><span class="step">01</span><div><h2 id="recipients-heading">Prejemniki</h2><p>En par oziroma prejemnik v vsako vrstico.</p></div><span id="recipient-count" class="count">0</span></div>
+          <div class="table-wrap"><table><thead><tr><th scope="col" class="number-col">Št.</th><th scope="col">Ime in priimek jubilantov</th><th scope="col"><span class="sr-only">Odstrani</span></th></tr></thead><tbody id="recipient-rows"></tbody></table></div>
+          <button id="add-recipient" class="button button-secondary" type="button"><span aria-hidden="true">＋</span> Dodaj prejemnika</button>
+          <details class="bulk-details"><summary>Prilepi več prejemnikov naenkrat</summary><label for="bulk-names">Vsakega prejemnika vpiši v svojo vrstico. Prilepiš lahko tudi stolpec iz preglednice.</label><textarea id="bulk-names" rows="4" placeholder="Ana in Janez Novak&#10;Marija in Jože Kovač"></textarea><button id="import-names" type="button" class="button button-secondary">Dodaj na seznam</button></details>
+          <p class="hint">Predogled vedno prikazuje prvega vpisanega prejemnika.</p>
+        </section>
+
+        <section class="panel" aria-labelledby="text-heading">
+          <div class="section-heading"><span class="step">02</span><div><h2 id="text-heading">Besedilo plakete</h2><p>Enako besedilo bo na vseh plaketah.</p></div></div>
+          <label for="body-text">Spodnje besedilo</label>
+          <textarea id="body-text" rows="8" maxlength="2000" spellcheck="true"></textarea>
+          <p class="field-hint">Z novo vrstico določiš prelom, s prazno vrstico razmik med odstavki.</p>
+          <label for="footer-text">Kraj, datum in podpis</label>
+          <textarea id="footer-text" rows="2" maxlength="300" spellcheck="true"></textarea>
+        </section>
+
+        <section class="panel typography-panel" aria-labelledby="type-heading">
+          <details><summary id="type-heading">Pisave in izvirna predloga</summary><div class="details-content"><p>Barve in postavitev sledijo izvirniku. Iz JPG-ja točne pisave ni mogoče potrditi. Če sta nameščeni, se uporabita Times New Roman in Monotype Corsiva; sicer priloženi podobni pisavi.</p><div class="font-field"><label for="serif-font">Lastna pisava za naslov in besedilo</label><input id="serif-font" type="file" accept=".ttf,.otf,.woff,.woff2"><span id="serif-font-status" class="field-hint">Times New Roman / Liberation Serif</span></div><div class="font-field"><label for="script-font">Lastna kaligrafska pisava za prejemnike</label><input id="script-font" type="file" accept=".ttf,.otf,.woff,.woff2"><span id="script-font-status" class="field-hint">Monotype Corsiva / Italianno</span></div><p class="field-hint">Naloženi pisavi veljata do ponovnega nalaganja strani.</p><a class="text-link" href="./assets/izvirna-predloga.jpg" target="_blank" rel="noopener">Poglej izvirno predlogo <span aria-hidden="true">↗</span></a></div></details>
+        </section>
+        <div class="editor-footer"><span id="save-status">Osnutek se shranjuje v ta brskalnik.</span><button id="restore-text" class="text-button" type="button">Povrni izvirno besedilo</button></div>
+      </div>
+
+      <section class="preview-column" aria-labelledby="preview-heading">
+        <div class="preview-shell"><div class="preview-toolbar"><h2 id="preview-heading">Predogled plakete</h2><span id="preview-counter">Prvi prejemnik</span></div><div class="paper-stage"><canvas id="preview" width="1240" height="1754" role="img" aria-label="Predogled A4 plakete"></canvas><p id="loading-message" class="loading-message">Pripravljam predlogo …</p></div><div class="preview-bottom"><span>A4 · 210 × 297 mm</span><span>Podoba iz izvirnega PDF-ja</span></div></div>
+        <div class="download-panel"><div><strong id="download-summary">Dodaj prvega prejemnika</strong><p>Vsak prejemnik dobi svojo A4 stran.</p></div><button id="download" class="button button-primary" type="button" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 15v5h14v-5"/></svg><span>Prenesi PDF</span></button><button id="cancel-download" class="text-button" type="button" hidden>Prekliči</button></div>
+        <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+        <p class="privacy-note"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5z"/></svg>Imena in besedila ostanejo v tvojem brskalniku.</p>
+      </section>
+    </div>
+    <noscript>Za prikaz in prenos plaket omogoči JavaScript v brskalniku.</noscript>
+  </main>
+  <footer class="site-footer"><span>Župnija Črnomelj</span><span>Majhna pozornost za velike obletnice.</span><span class="footer-flourish" aria-hidden="true">❧</span></footer>
+</body>
+</html>

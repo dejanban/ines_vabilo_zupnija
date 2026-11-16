@@ -1,0 +1,92 @@
+{
+  "temno_ozadje": {
+    "obmocje_px": [
+      340,
+      30,
+      450,
+      150
+    ],
+    "metoda": "mediana vseh pikslov",
+    "RGB": [
+      44,
+      42,
+      42
+    ],
+    "HEX": "#2C2A2A"
+  },
+  "zlata_krona": {
+    "obmocje_px": [
+      95,
+      45,
+      180,
+      145
+    ],
+    "metoda": "mediana vseh pikslov",
+    "RGB": [
+      182,
+      152,
+      104
+    ],
+    "HEX": "#B69868"
+  },
+  "koza_obraz": {
+    "obmocje_px": [
+      188,
+      186,
+      260,
+      255
+    ],
+    "metoda": "mediana vseh pikslov",
+    "RGB": [
+      225,
+      196,
+      157
+    ],
+    "HEX": "#E1C49D"
+  },
+  "modro_zelen_plasc": {
+    "obmocje_px": [
+      255,
+      335,
+      300,
+      400
+    ],
+    "metoda": "mediana vseh pikslov",
+    "RGB": [
+      69,
+      85,
+      86
+    ],
+    "HEX": "#455556"
+  },
+  "rdeca_obleka": {
+    "obmocje_px": [
+      80,
+      570,
+      190,
+      660
+    ],
+    "metoda": "mediana vseh pikslov",
+    "RGB": [
+      159,
+      64,
+      48
+    ],
+    "HEX": "#9F4030"
+  },
+  "zlato_rumen_plasc": {
+    "obmocje_px": [
+      310,
+      550,
+      365,
+      610
+    ],
+    "metoda": "mediana vseh pikslov",
+    "RGB": [
+      124,
+      80,
+      47
+    ],
+    "HEX": "#7C502F"
+  }
+}

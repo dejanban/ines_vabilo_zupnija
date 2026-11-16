@@ -1,0 +1,20 @@
+[
+  {
+    "datoteka": "A4_samo_ozadje.png",
+    "sirina_px": 2480,
+    "visina_px": 3508,
+    "dpi": 300,
+    "format": "A4, pokončno",
+    "besedilo": false,
+    "podoba_iz_pdf": false
+  },
+  {
+    "datoteka": "A4_ozadje_z_Marijo.png",
+    "sirina_px": 2480,
+    "visina_px": 3508,
+    "dpi": 300,
+    "format": "A4, pokončno",
+    "besedilo": false,
+    "podoba_iz_pdf": true
+  }
+]
