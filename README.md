@@ -1,5 +1,7 @@
 # Priprava plaket · Župnija Črnomelj
 
+https://dejanban.github.io/ines_vabilo_zupnija/spletna-aplikacija/dist/
+
 Spletna aplikacija za pripravo plaket z urejljivim naslovom, besedilom in podpisom, več prejemniki ter prenosom vseh plaket v enem PDF-ju.
 
 ## [Odpri aplikacijo za pripravo plaket](https://dejanban.github.io/ines_vabilo_zupnija/)
