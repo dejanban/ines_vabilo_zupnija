@@ -1,6 +1,6 @@
 # Plakete za različne priložnosti
 
-Spletna aplikacija za Župnijo Črnomelj. Uporablja neposredno kopijo datoteke `izhod/A4_ozadje_z_Marijo.svg` kot ozadje. Besedilo je postavljeno po vzoru `IMG_8981.JPG`, vključno z izmerjenimi temno rjavimi in skoraj črnimi barvami.
+Spletna aplikacija za Župnijo Črnomelj. Kot osnovni sloj omogoča izvirno predlogo (neposredno kopijo datoteke `izhod/A4_ozadje_z_Marijo.svg`) ali belo različico `izhod/A4_belo_ozadje_z_Marijo.svg`. Obe ohranita Marijino podobo in okrasni okvir. Besedilo je postavljeno po vzoru `IMG_8981.JPG`, vključno z izmerjenimi temno rjavimi in skoraj črnimi barvami.
 
 ## GitHub Pages
 
@@ -26,8 +26,9 @@ Odpri **http://localhost:8000**. Za druga vrata dodaj številko, na primer `pyth
 
 1. V tabelo vpiši po enega prejemnika oziroma par na vrstico. Dodatne vrstice doda gumb **Dodaj prejemnika** ali tipka Enter. Seznam lahko tudi prilepiš iz preglednice.
 2. Predogled vedno prikazuje prvega izpolnjenega prejemnika. Prazne vrstice se pri izvozu preskočijo; enaka imena se ohranijo, če so vpisana večkrat.
-3. Uredi **Naslov plakete**, spodnje besedilo in vrstico s krajem, datumom in podpisom. Privzeti naslov »PLAKETA ZA / OBLETNICO POROKE« lahko zamenjaš za poljubno drugo priložnost. Naslov podpira do dve vrstici in se ob daljšem besedilu samodejno pomanjša. Nova vrstica v besedilu določi prelom, prazna vrstica razmik med odstavki. Imena in daljša besedila se samodejno prilagajajo razpoložljivemu prostoru. Če se besedilo ne more več berljivo prilegati, je prenos onemogočen in prikazana napaka.
-4. **Prenesi PDF** neposredno prenese en večstranski PDF. Za vsakega prejemnika vsebuje eno A4 stran z njegovim imenom. Med generiranjem je prikazan napredek, na voljo je preklic.
+3. Uredi **Naslov plakete**, spodnje besedilo ter polje **Kraj, datum in podpis**. To polje podpira največ dve vrstici; prelom z Enter se ohrani v predogledu in na vseh straneh PDF-ja. Privzeti naslov »PLAKETA ZA / OBLETNICO POROKE« lahko zamenjaš za poljubno drugo priložnost. Naslov podpira do dve vrstici in se ob daljšem besedilu samodejno pomanjša. Nova vrstica v besedilu določi prelom, prazna vrstica razmik med odstavki. Imena in daljša besedila se samodejno prilagajajo razpoložljivemu prostoru. Če se besedilo ne more več berljivo prilegati, je prenos onemogočen in prikazana napaka.
+4. Pri **Ozadje plakete** izberi **Barvito ozadje** ali **Belo ozadje**. Belo ozadje nadomesti kremni pergament z belo podlago ter ohrani Marijino podobo, okrasni okvir in postavitev besedila. Izbira velja za predogled in vse strani PDF-ja ter se shrani v osnutek. Stari osnutki brez izbire uporabljajo izvirno predlogo; gumb za povrnitev besedila ohrani izbrani sloj.
+5. **Prenesi PDF** neposredno prenese en večstranski PDF. Za vsakega prejemnika vsebuje eno A4 stran z njegovim imenom. Med generiranjem je prikazan napredek, na voljo je preklic.
 
 Osnutek se shranjuje samo v lokalno shrambo trenutnega brskalnika, vključno z naslovom. Imena in urejena besedila se ne pošiljajo strežniku. Obstoječi osnutki brez naslova dobijo privzeti naslov, ostali podatki ostanejo ohranjeni. Če lokalna shramba ni dovoljena, aplikacija še vedno deluje do zaprtja strani. **Povrni izvirno besedilo** povrne naslov, besedilo in podpis ter ohrani seznam prejemnikov.
 

@@ -61,6 +61,8 @@ export function drawCertificate(canvas, state, recipient, background, fonts = DE
   context.setTransform(canvas.width / 382, 0, 0, canvas.height / 512, 0, 0);
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
+  context.fillStyle = '#FFFFFF';
+  context.fillRect(0, 0, 382, 512);
   context.drawImage(background, 0, 0, 382, 512);
   context.textAlign = 'center';
   context.textBaseline = 'alphabetic';
@@ -93,11 +95,11 @@ export function drawCertificate(canvas, state, recipient, background, fonts = DE
   context.fillStyle = COLORS.body;
   body.lines.forEach(line => context.fillText(line.text, 191, 345 + line.y));
 
-  const footer = state.footer.replace(/\s+/gu, ' ').trim();
+  const footer = state.footer.trim().split(/\r\n|\n|\r/u).map(line => line.replace(/\s+/gu, ' ').trim());
   let footerSize = 12.5;
   setFont(context, footerSize, fonts.serif);
-  while (context.measureText(footer).width > 272 && footerSize > 9) { footerSize -= .2; setFont(context, footerSize, fonts.serif); }
-  const footerLines = wrapLine(context, footer, 272);
+  while (footer.some(line => context.measureText(line).width > 272) && footerSize > 9) { footerSize = Math.max(9, footerSize - .2); setFont(context, footerSize, fonts.serif); }
+  const footerLines = footer.flatMap(line => line ? wrapLine(context, line, 272) : ['']);
   if (footerLines.length > 2) throw new Error('Kraj, datum in podpis so predolgi. Uporabi največ dve kratki vrstici.');
   context.fillStyle = COLORS.footer;
   footerLines.forEach((line, i) => context.fillText(line, 191, (footerLines.length > 1 ? 462 : 470) + i * 13));

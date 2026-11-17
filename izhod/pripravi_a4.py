@@ -45,15 +45,23 @@ def data_uri(path):
     return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode("ascii")
 
 
-def document(painting=False):
+def document(painting=False, white=False):
     background = data_uri(ROOT / "viri/ozadje_generirano.png")
-    elements = [f'<image x="0" y="0" width="210" height="297" preserveAspectRatio="none" href="{background}" xlink:href="{background}"/>']
+    elements = []
+    if white:
+        # The blue channel separates the pale parchment from the brown vines.
+        # Only the background image is filtered; the PDF painting stays intact.
+        elements.append('<defs><filter id="white-paper" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 -2.5 0 1.75"/></filter></defs>')
+        elements.append('<rect width="210" height="297" fill="#FFFFFF"/>')
+    effect = ' filter="url(#white-paper)"' if white else ''
+    elements.append(f'<image x="0" y="0" width="210" height="297" preserveAspectRatio="none" href="{background}" xlink:href="{background}"{effect}/>')
     if painting:
         original = data_uri(ROOT / "viri/Marija_iz_PDF_izvirnik.png")
         picture_width = 67
         picture_height = picture_width * 720 / 464
         x, y = (210 - picture_width) / 2, 27
-        elements.append(f'<rect x="{x-0.7}" y="{y-0.7}" width="{picture_width+1.4}" height="{picture_height+1.4}" fill="#F5F1D8" stroke="#BCAF86" stroke-width="0.3"/>')
+        picture_mat = '#FFFFFF' if white else '#F5F1D8'
+        elements.append(f'<rect x="{x-0.7}" y="{y-0.7}" width="{picture_width+1.4}" height="{picture_height+1.4}" fill="{picture_mat}" stroke="#BCAF86" stroke-width="0.3"/>')
         elements.append(f'<image x="{x}" y="{y}" width="{picture_width}" height="{picture_height}" preserveAspectRatio="xMidYMid meet" href="{original}" xlink:href="{original}"/>')
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="210mm" height="297mm" viewBox="0 0 210 297">\n'
@@ -93,7 +101,8 @@ def render(name, svg):
 
 if __name__ == "__main__":
     result = [render("A4_samo_ozadje", document()),
-              render("A4_ozadje_z_Marijo", document(painting=True))]
+              render("A4_ozadje_z_Marijo", document(painting=True)),
+              render("A4_belo_ozadje_z_Marijo", document(painting=True, white=True))]
     (ROOT / "analiza/izhodne_datoteke.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))

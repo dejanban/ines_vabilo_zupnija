@@ -77,10 +77,12 @@ try:
 
     default_title = 'PLAKETA ZA\nOBLETNICO POROKE'
     assert js('return document.querySelector("#title-text").value') == default_title
-    js('const s=JSON.parse(localStorage.getItem("crnomelj-plakete-v1"));delete s.title;localStorage.setItem("crnomelj-plakete-v1",JSON.stringify(s));')
+    assert js('return document.querySelector("#background").value') == 'original'
+    js('const s=JSON.parse(localStorage.getItem("crnomelj-plakete-v1"));delete s.title;delete s.background;localStorage.setItem("crnomelj-plakete-v1",JSON.stringify(s));')
     command('/refresh', {})
     wait('return document.querySelector("#loading-message").hidden')
     assert js('return document.querySelector("#title-text").value') == default_title
+    assert js('return document.querySelector("#background").value') == 'original'
     checks.append('Stari osnutki brez naslova dobijo izvirni naslov in ostanejo uporabni.')
 
     fill('#recipient-rows input', 'Ana in Janez Novak')
@@ -92,12 +94,21 @@ try:
     checks.append('Tabela: 2 izpolnjena prejemnika in prazna vrstica pomenijo 2 strani; predogled kaže prvega.')
 
     body = js('return document.querySelector("#body-text").value').replace('5. obletnico', '10. obletnico')
-    footer = 'Črnomelj, 23. 11. 2026 | Janez Žakelj, župnik'
+    footer = 'Črnomelj, 23. 11. 2026\nJanez Žakelj, župnik'
     title = 'PLAKETA ZA\nDOLGOLETNO SODELOVANJE'
     fill('#title-text', title)
     fill('#body-text', body)
+    js('window.footerDraws=[];const original=CanvasRenderingContext2D.prototype.fillText;CanvasRenderingContext2D.prototype.fillText=function(text,x,y,...args){if(y>=462)window.footerDraws.push({text:String(text),y,width:this.canvas.width});return original.call(this,text,x,y,...args);};')
+    fill('#footer-text', 'Črnomelj, 23. 11. 2026')
+    wait('return !document.querySelector("#download").disabled')
+    assert js('return window.footerDraws.at(-1)') == {'text': 'Črnomelj, 23. 11. 2026', 'y': 470, 'width': 1240}
     fill('#footer-text', footer)
     wait('return !document.querySelector("#download").disabled')
+    assert js('return window.footerDraws.slice(-2)') == [
+        {'text': 'Črnomelj, 23. 11. 2026', 'y': 462, 'width': 1240},
+        {'text': 'Janez Žakelj, župnik', 'y': 475, 'width': 1240},
+    ]
+    checks.append('Podpis: ena vrstica ostane ena; Enter v urejevalniku izriše dve ločeni vrstici v predogledu.')
     screenshot('desktop.png')
     raw = js('return document.querySelector("#preview").toDataURL("image/png").split(",")[1]')
     (RESULTS / 'preview.png').write_bytes(base64.b64decode(raw))
@@ -108,6 +119,12 @@ try:
     exported_text = js('return window.exportedText')
     assert exported_text.count('DOLGOLETNO SODELOVANJE') == 2, exported_text
     assert 'OBLETNICO POROKE' not in exported_text, exported_text
+    assert js('return window.footerDraws.filter(line=>line.width===2480)') == [
+        {'text': line, 'y': y, 'width': 2480}
+        for _ in range(2)
+        for line, y in [('Črnomelj, 23. 11. 2026', 462), ('Janez Žakelj, župnik', 475)]
+    ]
+    checks.append('PDF: kraj in datum ter podpis se na obeh straneh izrišejo v dveh vrsticah po prelomu iz urejevalnika.')
     checks.append('Urejeni naslov se uporabi na obeh dejansko izrisanih straneh PDF-ja.')
     target = DOWNLOADS / 'plakete-crnomelj-2.pdf'
     deadline = time.monotonic() + 20
@@ -134,13 +151,50 @@ try:
     assert max(ImageStat.Stat(common_difference).mean) < .2
     checks.append('Strani PDF: območji prejemnikov se razlikujeta, zgornja podoba in naslov sta enaka.')
 
+    original_preview = js('return document.querySelector("#preview").toDataURL()')
+    js('const n=document.querySelector("#background");n.value="white";n.dispatchEvent(new Event("change",{bubbles:true}));')
+    wait('return !document.querySelector("#download").disabled')
+    assert js('const c=document.querySelector("#preview");return c.getContext("2d").getImageData(Math.floor(c.width*.2),Math.floor(c.height*.45),Math.floor(c.width*.6),Math.floor(c.height*.006)).data.every(v=>v===255);')
+    assert js('return document.querySelector("#background-description").textContent') == 'Belo ozadje'
+    screenshot('desktop-white.png')
+    target.unlink()
+    js('document.querySelector("#download").click()')
+    wait('return document.querySelector("#feedback").textContent.startsWith("PDF je pripravljen:")', 90)
+    deadline = time.monotonic() + 20
+    while not target.exists() and time.monotonic() < deadline:
+        time.sleep(.1)
+    assert target.exists()
+    assert 'Pages:           2' in subprocess.check_output(['pdfinfo', str(target)], text=True)
+    subprocess.run(['pdftoppm', '-scale-to', '1200', '-png', str(target), str(RESULTS / 'pdf-white-page')], check=True)
+    for number in (1, 2):
+        white_page = Image.open(RESULTS / f'pdf-white-page-{number}.png').convert('RGB')
+        ww, wh = white_page.size
+        # JPEG encoding and PDF rasterization can shift white by one level.
+        assert all(low >= 254 for low, high in white_page.crop((round(ww*.2), round(wh*.45), round(ww*.8), round(wh*.455))).getextrema())
+        assert min(channel[0] for channel in white_page.getextrema()) < 100
+    checks.append('Beli sloj: predogled in obe strani prenesenega PDF-ja imajo belo podlago ter ohranijo podobo, okvir in besedilo.')
+    js('const n=document.querySelector("#background");n.value="original";n.dispatchEvent(new Event("change",{bubbles:true}));')
+    wait('return !document.querySelector("#download").disabled')
+    assert js('return document.querySelector("#preview").toDataURL()') == original_preview
+    js('const n=document.querySelector("#background");n.value="white";n.dispatchEvent(new Event("change",{bubbles:true}));')
+    wait('return !document.querySelector("#download").disabled')
+
     command('/refresh', {})
     wait('return document.querySelector("#loading-message").hidden')
     assert js('return document.querySelector("#body-text").value') == body
     assert js('return document.querySelector("#title-text").value') == title
     assert js('return document.querySelector("#footer-text").value') == footer
     assert js('return document.querySelector("#recipient-count").textContent') == '2'
+    assert js('return document.querySelector("#background").value') == 'white'
+    assert js('const c=document.querySelector("#preview");return c.getContext("2d").getImageData(Math.floor(c.width*.2),Math.floor(c.height*.45),Math.floor(c.width*.6),Math.floor(c.height*.006)).data.every(v=>v===255);')
+    checks.append('Osnovni sloj: preklop nazaj obnovi izvirno podobo; bela izbira ostane po osvežitvi.')
     checks.append('Osnutek: imena, naslov, urejeno besedilo in podpis se ohranijo po osvežitvi.')
+
+    fill('#footer-text', 'Kraj\nDatum\nPodpis')
+    wait('return document.querySelector("#download").disabled && document.querySelector("#feedback").textContent.includes("Kraj, datum in podpis so predolgi")')
+    fill('#footer-text', footer)
+    wait('return !document.querySelector("#download").disabled')
+    checks.append('Podpis: tri vrstice preprečijo prenos z razumljivo napako; popravek na dve vrstici spet omogoči prenos.')
 
     fill('#title-text', 'Priznanje za sodelovanje')
     wait('return !document.querySelector("#download").disabled')
@@ -163,6 +217,7 @@ try:
     checks.append('Daljše ime se prilagodi; prazne vrstice ne preprečijo prikaza prvega vpisanega prejemnika.')
 
     js('document.querySelector("#restore-text").click()')
+    assert js('return document.querySelector("#background").value') == 'white'
     assert js('return document.querySelector("#title-text").value') == default_title
     assert '5. obletnico' in js('return document.querySelector("#body-text").value')
     assert js('return document.querySelector("#recipient-rows tr:nth-child(2) input").value') == 'Marija in Jože Kovač'

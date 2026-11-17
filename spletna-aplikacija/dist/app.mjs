@@ -3,18 +3,19 @@ import { buildPdf } from './pdf.mjs';
 
 const $ = selector => document.querySelector(selector);
 const STORAGE_KEY = 'crnomelj-plakete-v1';
-const defaults = () => ({ recipients: [''], title: DEFAULT_TITLE, body: DEFAULT_BODY, footer: DEFAULT_FOOTER });
+const defaults = () => ({ recipients: [''], background: 'original', title: DEFAULT_TITLE, body: DEFAULT_BODY, footer: DEFAULT_FOOTER });
 let state = defaults();
 let storageAvailable = true;
 try {
   const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
   if (stored && Array.isArray(stored.recipients) && stored.recipients.every(value => typeof value === 'string') && typeof stored.body === 'string' && typeof stored.footer === 'string') {
-    state = { recipients: stored.recipients.length ? stored.recipients : [''], title: typeof stored.title === 'string' ? stored.title : DEFAULT_TITLE, body: stored.body, footer: stored.footer };
+    state = { recipients: stored.recipients.length ? stored.recipients : [''], background: stored.background === 'white' ? 'white' : 'original', title: typeof stored.title === 'string' ? stored.title : DEFAULT_TITLE, body: stored.body, footer: stored.footer };
   }
 } catch { storageAvailable = false; }
 
 const fonts = { ...DEFAULT_FONTS };
 let background;
+let whiteBackground;
 let ready = false;
 let previewValid = false;
 let frame;
@@ -44,12 +45,13 @@ function updateSummary() {
   $('#download-summary').textContent = count === 0 ? 'Dodaj prvega prejemnika' : `${count} ${count === 1 ? 'plaketa' : count === 2 ? 'plaketi' : count === 3 || count === 4 ? 'plakete' : 'plaket'} v enem PDF-ju`;
   $('#download').disabled = !ready || !previewValid || !count || !!exportController || fontLoading;
   $('#preview').setAttribute('aria-label', `Predogled A4 plakete za ${recipients[0] || 'prvega prejemnika'}`);
+  $('#background-description').textContent = state.background === 'white' ? 'Belo ozadje' : 'Barvito ozadje';
 }
 
 function renderPreview() {
   if (!ready) { updateSummary(); return; }
   try {
-    drawCertificate($('#preview'), state, getRecipients(state.recipients)[0] || PLACEHOLDER, background, fonts);
+    drawCertificate($('#preview'), state, getRecipients(state.recipients)[0] || PLACEHOLDER, state.background === 'white' ? whiteBackground : background, fonts);
     previewValid = true;
     if ($('#feedback').dataset.layoutError) { feedback(); delete $('#feedback').dataset.layoutError; }
   } catch (error) {
@@ -108,6 +110,8 @@ function renderRows(focusIndex) {
   if (focusIndex !== undefined) $('#recipient-rows').querySelectorAll('input')[focusIndex]?.focus();
 }
 
+$('#background').value = state.background;
+$('#background').addEventListener('change', event => { state.background = event.target.value; changed(); });
 $('#title-text').value = state.title;
 $('#title-text').addEventListener('input', event => { state.title = event.target.value; changed(); });
 $('#body-text').value = state.body;
@@ -165,7 +169,7 @@ $('#download').addEventListener('click', async () => {
   if (!ready || exportController || !previewValid || fontLoading) return;
   const recipients = getRecipients(state.recipients);
   if (!recipients.length) { feedback('Dodaj vsaj enega prejemnika.', true); return; }
-  const snapshot = { title: state.title, body: state.body, footer: state.footer };
+  const snapshot = { background: state.background, title: state.title, body: state.body, footer: state.footer };
   const exportFonts = { ...fonts };
   exportController = new AbortController();
   const signal = exportController.signal;
@@ -183,7 +187,7 @@ $('#download').addEventListener('click', async () => {
       currentPage++;
       feedback(`Pripravljam PDF: ${currentPage} / ${recipients.length} …`);
       await nextPaint();
-      drawCertificate(canvas, snapshot, recipient, background, exportFonts);
+      drawCertificate(canvas, snapshot, recipient, snapshot.background === 'white' ? whiteBackground : background, exportFonts);
       pages.push(await jpegBytes(canvas));
     }
     signal.throwIfAborted();
@@ -212,8 +216,11 @@ async function initialize() {
   try {
     background = new Image();
     background.src = new URL('./assets/ozadje.svg', import.meta.url).href;
+    whiteBackground = new Image();
+    whiteBackground.src = new URL('./assets/belo-ozadje.svg', import.meta.url).href;
     await Promise.all([
       background.decode(),
+      whiteBackground.decode(),
       document.fonts.load('400 14px CertificateSerif'),
       document.fonts.load('700 19px CertificateSerif'),
       document.fonts.load('400 28px CertificateScript'),

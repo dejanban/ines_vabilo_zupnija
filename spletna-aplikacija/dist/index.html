@@ -37,6 +37,12 @@
 
         <section class="panel" aria-labelledby="text-heading">
           <div class="section-heading"><span class="step">02</span><div><h2 id="text-heading">Besedilo plakete</h2><p>Enako besedilo bo na vseh plaketah.</p></div></div>
+          <label for="background">Ozadje plakete</label>
+          <select id="background" aria-describedby="background-hint">
+            <option value="original">Barvito ozadje</option>
+            <option value="white">Belo ozadje</option>
+          </select>
+          <p id="background-hint" class="field-hint">Obe ozadji ohranita Marijino podobo in okrasni okvir. Izbira velja tudi za PDF.</p>
           <label for="title-text">Naslov plakete</label>
           <textarea id="title-text" rows="2" maxlength="300" spellcheck="true" aria-describedby="title-hint"></textarea>
           <p id="title-hint" class="field-hint">Vpiši naslov za svojo priložnost. Z novo vrstico določiš prelom; naslov se prilagodi največ dvema vrsticama.</p>
@@ -44,7 +50,8 @@
           <textarea id="body-text" rows="8" maxlength="2000" spellcheck="true"></textarea>
           <p class="field-hint">Z novo vrstico določiš prelom, s prazno vrstico razmik med odstavki.</p>
           <label for="footer-text">Kraj, datum in podpis</label>
-          <textarea id="footer-text" rows="2" maxlength="300" spellcheck="true"></textarea>
+          <textarea id="footer-text" rows="2" maxlength="300" spellcheck="true" aria-describedby="footer-hint"></textarea>
+          <p id="footer-hint" class="field-hint">Za dve vrstici pritisni Enter. Prelom se ohrani na plaketi in v PDF-ju. Uporabi največ dve vrstici.</p>
         </section>
 
         <section class="panel typography-panel" aria-labelledby="type-heading">
@@ -54,7 +61,7 @@
       </div>
 
       <section class="preview-column" aria-labelledby="preview-heading">
-        <div class="preview-shell"><div class="preview-toolbar"><h2 id="preview-heading">Predogled plakete</h2><span id="preview-counter">Prvi prejemnik</span></div><div class="paper-stage"><canvas id="preview" width="1240" height="1754" role="img" aria-label="Predogled A4 plakete"></canvas><p id="loading-message" class="loading-message">Pripravljam predlogo …</p></div><div class="preview-bottom"><span>A4 · 210 × 297 mm</span><span>Podoba iz izvirnega PDF-ja</span></div></div>
+        <div class="preview-shell"><div class="preview-toolbar"><h2 id="preview-heading">Predogled plakete</h2><span id="preview-counter">Prvi prejemnik</span></div><div class="paper-stage"><canvas id="preview" width="1240" height="1754" role="img" aria-label="Predogled A4 plakete"></canvas><p id="loading-message" class="loading-message">Pripravljam predlogo …</p></div><div class="preview-bottom"><span>A4 · 210 × 297 mm</span><span id="background-description">Barvito ozadje</span></div></div>
         <div class="download-panel"><div><strong id="download-summary">Dodaj prvega prejemnika</strong><p>Vsak prejemnik dobi svojo A4 stran.</p></div><button id="download" class="button button-primary" type="button" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 15v5h14v-5"/></svg><span>Prenesi PDF</span></button><button id="cancel-download" class="text-button" type="button" hidden>Prekliči</button></div>
         <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
         <p class="privacy-note"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5z"/></svg>Imena in besedila ostanejo v tvojem brskalniku.</p>
